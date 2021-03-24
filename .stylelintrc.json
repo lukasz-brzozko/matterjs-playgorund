@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-sass-guidelines"
+  ],
+  "plugins": [
+    "stylelint-config-rational-order/plugin",
+    "stylelint-group-selectors",
+    "stylelint-high-performance-animation",
+    "stylelint-order"
+  ],
+  "rules": {
+    "order/properties-alphabetical-order": null,
+    "order/properties-order": [],
+    "plugin/no-low-performance-animation-properties": true,
+    "plugin/rational-order": [
+      true,
+      {
+        "border-in-box-model": false,
+        "empty-line-between-groups": false
+      }
+    ],
+    "plugin/stylelint-group-selectors": true
+  }
+}
