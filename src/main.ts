@@ -1,6 +1,10 @@
 import {
-  Bodies, Engine, Mouse, MouseConstraint, Render, World,
+  Engine, Render, World,
 } from 'matter-js';
+
+import FloatingObject from './components/FloatingObject';
+import MouseC from './components/MouseC';
+import MouseConstraintC from './components/MouseConstraintC';
 
 // create an engine
 const engine = Engine.create();
@@ -13,34 +17,15 @@ const render = Render.create({
 });
 
 // create ball and a ground
-const ball = Bodies.circle(
-  (window.innerWidth * 0.2),
-  (window.innerHeight * 0.6),
-  20,
-);
-const ground = Bodies.rectangle(
-  (window.innerWidth * 0.9),
-  (window.innerHeight * 0.7),
-  (window.innerWidth * 0.2),
-  60,
-  { isStatic: true },
-);
 
 // create mouse and mouseConstraint
-const mouse = Mouse.create(render.canvas);
-const mouseConstraint = MouseConstraint.create(engine, {
-  mouse,
-  constraint: {
-    stiffness: 0.2,
-    render: {
-      visible: false,
-    },
-    damping: 0.1,
-  },
-});
+const mouse = new MouseC(render.canvas, engine.world).create();
+const mouseConstraint = new MouseConstraintC(engine, mouse).create();
 
 // add all of the bodies to the world
-World.add(engine.world, [ball, ground]);
+
+const object = new FloatingObject(100, 100, 100, engine.world);
+object.add();
 
 // add mouseConstraint to the world
 World.add(engine.world, mouseConstraint);
