@@ -1,4 +1,4 @@
-import { Bodies, World } from 'matter-js';
+import { Bodies, Body, World } from 'matter-js';
 
 interface FloatingObjectInterface {
   x: number;
@@ -23,9 +23,8 @@ class FloatingObject implements FloatingObjectInterface {
     this.world = world;
   }
 
-  add(): void {
-    const floatingBody = Bodies.circle(this.x, this.y, this.r);
-    World.add(this.world, floatingBody);
+  create(): Body {
+    return Bodies.circle(this.x, this.y, this.r);
   }
 }
 
