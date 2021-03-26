@@ -5,38 +5,59 @@ import {
 import FloatingObject from './components/FloatingObject';
 import MouseC from './components/MouseC';
 import MouseConstraintC from './components/MouseConstraintC';
+import WallGenerator from './helpers/wallGenerator';
 
-// create an engine
-const engine = Engine.create();
+let engine:Engine;
+let render: Render;
 
-// create a renderer
-const render = Render.create({
-  engine,
-  element: document.body,
-  options: { height: window.innerHeight, width: window.innerWidth },
-});
+const setup = () => {
+  // create an engine
+  engine = Engine.create();
 
-// create ball and a ground
+  // create a renderer
+  render = Render.create({
+    engine,
+    element: document.body,
+    options: { height: window.innerHeight, width: window.innerWidth },
+  });
 
-// create mouse and mouseConstraint
-const mouse = new MouseC(render.canvas, engine.world).create();
-const mouseConstraint = new MouseConstraintC(engine, mouse).create();
+  // create all of the bodies
+  const ball = new FloatingObject(100, 100, 50, engine.world).create();
+  const walls = new WallGenerator(engine.world).generate();
 
-// add all of the bodies to the world
+  // create mouse and mouseConstraint
+  const mouse = new MouseC(render.canvas, engine.world).create();
+  const mouseConstraint = new MouseConstraintC(engine, mouse).create();
 
-const object = new FloatingObject(100, 100, 100, engine.world);
-object.add();
+  // add all of the bodies to the world
+  World.add(engine.world, [ball, ...walls]);
 
-// add mouseConstraint to the world
-World.add(engine.world, mouseConstraint);
+  // add mouseConstraint to the world
+  World.add(engine.world, mouseConstraint);
 
-// run the engine
-Engine.run(engine);
+  // run the engine
+  Engine.run(engine);
 
-// run the renderer
-Render.run(render);
+  // run the renderer
+  Render.run(render);
+};
+
+setup();
 
 window.addEventListener('resize', () => {
-  render.canvas.height = window.innerHeight;
-  render.canvas.width = window.innerWidth;
+  World.clear(engine.world, false);
+  Engine.clear(engine);
+  Render.stop(render);
+  if (render.canvas) {
+    render.canvas.remove();
+    render.canvas = null;
+    render.context = null;
+    render.textures = {};
+
+    setTimeout(
+
+      setup, 1000,
+
+    );
+  }
 });
