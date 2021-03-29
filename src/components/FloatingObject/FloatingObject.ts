@@ -50,7 +50,7 @@ class FloatingObject implements FloatingObjectInterface {
       mass: 10,
       render: {
         fillStyle: 'transparent',
-        lineWidth: window.innerWidth > 700 ? 3 : 2,
+        lineWidth: window.innerWidth > 1024 ? 3 : 2,
         strokeStyle: randomColor,
       },
       restitution: 1,
