@@ -25,7 +25,7 @@ class MouseConstraintC implements MouseConstraintInterface {
         render: {
           visible: false,
         },
-        damping: 0.1,
+        damping: 1,
       },
     };
 
