@@ -21,29 +21,33 @@ class WallGenerator implements WallGeneratorInterface {
     return [
       new StaticObject(
         windowWidth / 2,
-        0 - (wallThickness / 2) - 1,
-        windowWidth + 2, wallThickness,
+        0 - (wallThickness / 2),
+        windowWidth + 2,
+        wallThickness,
         this.world,
       ).create(),
 
       new StaticObject(
-        windowWidth + (wallThickness / 2) + 1,
+        windowWidth + (wallThickness / 2),
         windowHeight / 2,
-        wallThickness, windowHeight + 2,
+        wallThickness,
+        windowHeight + 2,
         this.world,
       ).create(),
 
       new StaticObject(
         windowWidth / 2,
-        windowHeight + (wallThickness / 2) + 1,
+        windowHeight + (wallThickness / 2),
         windowWidth + 2,
-        wallThickness, this.world,
+        wallThickness,
+        this.world,
       ).create(),
 
       new StaticObject(
-        0 - (wallThickness / 2) - 1,
+        0 - (wallThickness / 2),
         windowHeight / 2,
-        wallThickness, windowHeight + 2,
+        wallThickness,
+        windowHeight + 2,
         this.world,
       ).create(),
     ];

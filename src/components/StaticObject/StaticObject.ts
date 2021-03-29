@@ -35,8 +35,11 @@ class StaticObject implements StaticObjectInterface {
     } = this;
     const options: IChamferableBodyDefinition = {
       isStatic: true,
-    };
+      render: {
+        visible: false,
+      },
 
+    };
     return Bodies.rectangle(x, y, w, h, options);
   }
 }
