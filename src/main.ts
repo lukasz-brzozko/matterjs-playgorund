@@ -1,7 +1,7 @@
 import {
   Engine, Render, World,
 } from 'matter-js';
-
+import { debounce } from 'debounce';
 import FloatingObject from './components/FloatingObject';
 import MouseC from './components/MouseC';
 import MouseConstraintC from './components/MouseConstraintC';
@@ -18,7 +18,11 @@ const setup = () => {
   render = Render.create({
     engine,
     element: document.body,
-    options: { height: window.innerHeight, width: window.innerWidth },
+    options: {
+      height: window.innerHeight,
+      width: window.innerWidth,
+      wireframes: false,
+    },
   });
 
   // create all of the bodies
@@ -42,9 +46,7 @@ const setup = () => {
   Render.run(render);
 };
 
-setup();
-
-window.addEventListener('resize', () => {
+const resetCanvas = () => {
   World.clear(engine.world, false);
   Engine.clear(engine);
   Render.stop(render);
@@ -54,10 +56,14 @@ window.addEventListener('resize', () => {
     render.context = null;
     render.textures = {};
 
-    setTimeout(
-
-      setup, 1000,
-
-    );
+    setup();
   }
-});
+};
+
+const onResize = () => {
+  resetCanvas();
+};
+
+setup();
+
+window.addEventListener('resize', debounce(onResize, 200));
