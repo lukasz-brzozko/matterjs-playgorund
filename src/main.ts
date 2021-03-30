@@ -7,6 +7,7 @@ import BordersGenerator from './helpers/BordersGenerator';
 import FloatingObjectGenerator from './helpers/FloatingObjectGenerator';
 import MouseC from './components/MouseC';
 import MouseConstraintC from './components/MouseConstraintC';
+import resetCanvas from './helpers/resetCanvas';
 import WallGenerator from './helpers/wallGenerator';
 
 let engine: Engine;
@@ -57,22 +58,9 @@ const setup = () => {
   Render.run(render);
 };
 
-const resetCanvas = () => {
-  World.clear(world, false);
-  Engine.clear(engine);
-  Render.stop(render);
-  if (render.canvas) {
-    render.canvas.remove();
-    render.canvas = null;
-    render.context = null;
-    render.textures = {};
-
-    setup();
-  }
-};
-
 const onResize = () => {
-  resetCanvas();
+  resetCanvas(engine, render, world);
+  setup();
 };
 
 setup();
