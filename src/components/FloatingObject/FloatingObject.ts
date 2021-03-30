@@ -46,14 +46,16 @@ class FloatingObject implements FloatingObjectInterface {
     const randomColor = this.generateColors();
     const options: IChamferableBodyDefinition = {
       density: 0.1,
-      frictionAir: 0.005,
+      friction: 0,
+      frictionAir: 0.002,
+      frictionStatic: 0,
       mass: 10,
       render: {
         fillStyle: 'transparent',
         lineWidth: window.innerWidth > 1024 ? 3 : 2,
         strokeStyle: randomColor,
       },
-      restitution: 1,
+      restitution: 0.5,
     };
 
     const ball = Bodies.polygon(this.x, this.y, 3, this.r, options);
