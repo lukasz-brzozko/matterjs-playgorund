@@ -5,6 +5,7 @@ import {
 interface MouseConstraintInterface {
   engine: Engine;
   mouse: Mouse;
+  create(): MouseConstraint;
 }
 
 class MouseConstraintC implements MouseConstraintInterface {

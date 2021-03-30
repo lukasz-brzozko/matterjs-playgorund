@@ -11,6 +11,8 @@ interface FloatingObjectInterface {
   r: number;
   world: World;
   colors: typeof COLORS;
+  create(): Body;
+  generateColors(): string;
 }
 
 class FloatingObject implements FloatingObjectInterface {

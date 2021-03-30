@@ -4,8 +4,9 @@ import FloatingObject from '../components/FloatingObject';
 import randomValue from './randomValue';
 
 interface FloatingObjectsGeneratorInterface {
-  count: number
-  world: World
+  count: number;
+  world: World;
+  generate(): Body[];
 }
 
 class FloatingObjectGenerator implements FloatingObjectsGeneratorInterface {

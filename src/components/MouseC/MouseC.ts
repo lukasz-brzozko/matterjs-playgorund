@@ -3,6 +3,7 @@ import { Mouse, World } from 'matter-js';
 interface MouseInterface {
   canvas: HTMLCanvasElement;
   world: World;
+  create(): Mouse;
 }
 
 class MouseC implements MouseInterface {

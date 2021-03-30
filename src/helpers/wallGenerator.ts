@@ -4,6 +4,7 @@ import StaticObject from '../components/StaticObject';
 
 interface WallGeneratorInterface{
   world: World;
+  generate(): Body[];
 }
 
 class WallGenerator implements WallGeneratorInterface {

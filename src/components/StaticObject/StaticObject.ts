@@ -8,6 +8,7 @@ interface StaticObjectInterface {
   w: number;
   h: number;
   world: World;
+  create(): Body;
 }
 
 class StaticObject implements StaticObjectInterface {
