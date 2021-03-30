@@ -3,11 +3,10 @@ import {
 } from 'matter-js';
 import { debounce } from 'debounce';
 
-import FloatingObject from './components/FloatingObject';
-import getDOMElementRects from './helpers/getDOMElementRects';
+import FloatingObjectGenerator from './helpers/FloatingObjectGenerator';
+import getDOMElementsChildrenRects from './helpers/getDOMElementsChildrenRects';
 import MouseC from './components/MouseC';
 import MouseConstraintC from './components/MouseConstraintC';
-import randomValue from './helpers/randomValue';
 import WallGenerator from './helpers/wallGenerator';
 import StaticObject from './components/StaticObject';
 
@@ -38,21 +37,15 @@ const setup = () => {
   });
 
   // create all of the bodies
-  const floatingObjects: Body[] = [];
-  for (let index = 0; index < 5; index += 1) {
-    const r = window.innerWidth > 1024 ? 35 : 12;
-    const x = randomValue(r * 2, window.innerWidth - (r * 2));
-    const y = randomValue(r * 2, window.innerHeight - (r * 2));
-    floatingObjects.push(new FloatingObject(x, y, r, world).create());
-  }
+  const floatingObjects = new FloatingObjectGenerator(world, 5).generate();
 
-  const childrenRects = getDOMElementRects('.container');
-  const childrenBorders: Body[] = [];
-  childrenRects.forEach(({
+  const elementsRects = getDOMElementsChildrenRects('.container');
+  const elementsBorders: Body[] = [];
+  elementsRects.forEach(({
     x, y, width, height,
   }) => {
     const border = new StaticObject(x + width / 2, y + height / 2, width, height, world).create();
-    childrenBorders.push(border);
+    elementsBorders.push(border);
   });
 
   const walls = new WallGenerator(world).generate();
@@ -62,7 +55,7 @@ const setup = () => {
   const mouseConstraint = new MouseConstraintC(engine, mouse).create();
 
   // add all of the bodies to the world
-  World.add(world, [...floatingObjects, ...walls, ...childrenBorders]);
+  World.add(world, [...floatingObjects, ...walls, ...elementsBorders]);
 
   // add mouseConstraint to the world
   World.add(world, mouseConstraint);
