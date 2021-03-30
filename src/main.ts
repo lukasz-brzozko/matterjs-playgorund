@@ -8,7 +8,7 @@ import FloatingObjectGenerator from './helpers/FloatingObjectGenerator';
 import MouseC from './components/MouseC';
 import MouseConstraintC from './components/MouseConstraintC';
 import resetCanvas from './helpers/resetCanvas';
-import WallGenerator from './helpers/wallGenerator';
+import WallGenerator from './helpers/WallGenerator';
 
 let engine: Engine;
 let render: Render;
