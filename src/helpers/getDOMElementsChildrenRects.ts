@@ -1,4 +1,4 @@
-const getDOMElementRects = (selector: string): DOMRect[] => {
+const getDOMElementsChildrenRects = (selector: string): DOMRect[] => {
   const element: Element | null = document.querySelector(selector);
   const children = element?.children;
   const childrenArr: Element[] = children ? [...children] : [];
@@ -7,4 +7,4 @@ const getDOMElementRects = (selector: string): DOMRect[] => {
   return params;
 };
 
-export default getDOMElementRects;
+export default getDOMElementsChildrenRects;
