@@ -1,14 +1,13 @@
 import {
-  Body, Engine, Render, World,
+  Engine, Render, World,
 } from 'matter-js';
 import { debounce } from 'debounce';
 
+import BordersGenerator from './helpers/BordersGenerator';
 import FloatingObjectGenerator from './helpers/FloatingObjectGenerator';
-import getDOMElementsChildrenRects from './helpers/getDOMElementsChildrenRects';
 import MouseC from './components/MouseC';
 import MouseConstraintC from './components/MouseConstraintC';
 import WallGenerator from './helpers/wallGenerator';
-import StaticObject from './components/StaticObject';
 
 let engine: Engine;
 let render: Render;
@@ -38,16 +37,7 @@ const setup = () => {
 
   // create all of the bodies
   const floatingObjects = new FloatingObjectGenerator(world, 5).generate();
-
-  const elementsRects = getDOMElementsChildrenRects('.container');
-  const elementsBorders: Body[] = [];
-  elementsRects.forEach(({
-    x, y, width, height,
-  }) => {
-    const border = new StaticObject(x + width / 2, y + height / 2, width, height, world).create();
-    elementsBorders.push(border);
-  });
-
+  const borderObjects = new BordersGenerator(world).generate();
   const walls = new WallGenerator(world).generate();
 
   // create mouse and mouseConstraint
@@ -55,7 +45,7 @@ const setup = () => {
   const mouseConstraint = new MouseConstraintC(engine, mouse).create();
 
   // add all of the bodies to the world
-  World.add(world, [...floatingObjects, ...walls, ...elementsBorders]);
+  World.add(world, [...floatingObjects, ...walls, ...borderObjects]);
 
   // add mouseConstraint to the world
   World.add(world, mouseConstraint);
