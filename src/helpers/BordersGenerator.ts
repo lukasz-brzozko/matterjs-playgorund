@@ -6,7 +6,8 @@ import StaticObject from '../components/StaticObject';
 interface BordersGeneratorInterface {
   elementsBorders: Body[];
   world: World;
-  //   generate()
+  addStaticObject(rects: DOMRect): void
+  generate(): Body[];
 }
 
 class BordersGenerator implements BordersGeneratorInterface {
