@@ -16,7 +16,7 @@ class WallGenerator implements WallGeneratorInterface {
 
   generate(): Body[] {
     const wallThickness = 100;
-    const windowWidth = window.innerWidth;
+    const windowWidth = document.documentElement.clientWidth;
     const windowHeight = window.innerHeight;
 
     return [
