@@ -1,6 +1,18 @@
+@import './test';
+
 * {
   box-sizing: border-box;
-  height: 100vh;
   margin: 0;
   padding: 0%;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #272730;
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
