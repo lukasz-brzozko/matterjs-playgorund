@@ -1,12 +1,12 @@
 import { Body, World } from 'matter-js';
 
-import GetDOMElement from './GetDOMElement';
+import GetDOMElement, { OffsetsParams } from './GetDOMElement';
 import StaticObject from '../components/StaticObject';
 
 interface BordersGeneratorInterface {
   elementsBorders: Body[];
   world: World;
-  addStaticObject(rects: DOMRect): void
+  addStaticObject(offsets: OffsetsParams, parentOffsets: OffsetsParams): void
   generate(): Body[];
 }
 
@@ -20,12 +20,14 @@ class BordersGenerator implements BordersGeneratorInterface {
   }
 
   addStaticObject({
-    x, y, width, height,
-  }: DOMRect): void {
+    x, y, height, width,
+  }: OffsetsParams, parentOffsets: OffsetsParams)
+    : void {
     const border = new StaticObject(
-      x + width / 2,
-      y + height / 2,
-      width, height,
+      (x + width / 2) + parentOffsets.x,
+      (y + height / 2) + parentOffsets.y - parentOffsets.height / 2,
+      width,
+      height,
       this.world,
     ).create();
 
@@ -33,8 +35,8 @@ class BordersGenerator implements BordersGeneratorInterface {
   }
 
   generate(): Body[] {
-    const elementsRects = new GetDOMElement('.container').getChildrenRects();
-    elementsRects.forEach((rect) => this.addStaticObject(rect));
+    const [containerOffset, ...containerChildrenOffsets] = new GetDOMElement('#about .container').getDOMElementOffsets(true);
+    containerChildrenOffsets.forEach((rect) => this.addStaticObject(rect, containerOffset));
 
     return this.elementsBorders;
   }
