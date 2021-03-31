@@ -8,12 +8,6 @@ const resetCanvas = (currentEngine: Engine, currentRender: Render, currentWorld:
   World.clear(world, false);
   Engine.clear(engine);
   Render.stop(render);
-  if (render.canvas) {
-    render.canvas.remove();
-    render.canvas = null;
-    render.context = null;
-    render.textures = {};
-  }
 };
 
 export default resetCanvas;
