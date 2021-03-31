@@ -43,6 +43,9 @@ class MouseConstraintC implements MouseConstraintInterface {
     if (this.mouseConstraint !== null) {
       this.mouseConstraint.mouse.element.removeEventListener('mousewheel', this.mouseConstraint.mouse.mousewheel);
       this.mouseConstraint.mouse.element.removeEventListener('DOMMouseScroll', this.mouseConstraint.mouse.mousewheel);
+      this.mouseConstraint.mouse.element.removeEventListener('touchmove', this.mouseConstraint.mouse.mousemove);
+      this.mouseConstraint.mouse.element.removeEventListener('touchstart', this.mouseConstraint.mouse.mousedown);
+      this.mouseConstraint.mouse.element.removeEventListener('touchend', this.mouseConstraint.mouse.mouseup);
     }
   }
 }
