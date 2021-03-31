@@ -5,6 +5,7 @@ import {
 interface MouseConstraintInterface {
   engine: Engine;
   mouse: Mouse;
+  mouseConstraint: MouseConstraint | null;
   create(): MouseConstraint;
 }
 
@@ -12,6 +13,8 @@ class MouseConstraintC implements MouseConstraintInterface {
   engine: Engine;
 
   mouse: Mouse;
+
+  mouseConstraint: MouseConstraint | null = null;
 
   constructor(engine: Engine, mouse: Mouse) {
     this.engine = engine;
@@ -30,7 +33,17 @@ class MouseConstraintC implements MouseConstraintInterface {
       },
     };
 
-    return MouseConstraint.create(this.engine, options);
+    this.mouseConstraint = MouseConstraint.create(this.engine, options);
+    this.removeScrollHijack();
+
+    return this.mouseConstraint;
+  }
+
+  removeScrollHijack(): void {
+    if (this.mouseConstraint !== null) {
+      this.mouseConstraint.mouse.element.removeEventListener('mousewheel', this.mouseConstraint.mouse.mousewheel);
+      this.mouseConstraint.mouse.element.removeEventListener('DOMMouseScroll', this.mouseConstraint.mouse.mousewheel);
+    }
   }
 }
 
