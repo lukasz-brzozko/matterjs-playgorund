@@ -10,6 +10,7 @@ import MouseConstraintC from './components/MouseConstraintC';
 import resetCanvas from './helpers/resetCanvas';
 import WallGenerator from './helpers/WallGenerator';
 
+const canvas: HTMLCanvasElement | null = document.getElementById('playground') as HTMLCanvasElement;
 let engine: Engine;
 let render: Render;
 let world: World;
@@ -27,7 +28,7 @@ const setup = () => {
   // create a renderer
   render = Render.create({
     engine,
-    element: document.body,
+    canvas,
     options: {
       background: 'transparent',
       height: window.innerHeight,
