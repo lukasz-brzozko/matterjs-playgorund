@@ -14,6 +14,8 @@ const canvas: HTMLCanvasElement | null = document.getElementById('playground') a
 let engine: Engine;
 let render: Render;
 let world: World;
+let previousWidth: number = window.innerWidth;
+let previousHeight: number = window.innerHeight;
 
 const setup = () => {
   // create an engine
@@ -60,10 +62,26 @@ const setup = () => {
 };
 
 const onResize = () => {
-  resetCanvas(engine, render, world);
-  setup();
-};
+  console.log(previousWidth, window.innerWidth);
+  if (
+    (((previousWidth !== window.innerWidth) || (previousHeight !== window.innerHeight))
+      && ((window.innerWidth < 1024) && (Math.abs(previousHeight - window.innerHeight) > 70)))
+    || ((
+      (previousWidth !== window.innerWidth)
+      || (previousHeight !== window.innerHeight))
+      && (window.innerWidth > 1024))
+      || ((
+        (previousWidth !== window.innerWidth)
+        || (previousHeight !== window.innerHeight))
+        && (window.innerWidth < 1024) && (previousWidth > 1024))
 
+  ) {
+    resetCanvas(engine, render, world);
+    setup();
+    previousWidth = window.innerWidth;
+    previousHeight = window.innerHeight;
+  }
+};
 setup();
 
-window.addEventListener('resize', debounce(onResize, 200));
+window.addEventListener('resize', debounce(onResize, window.innerWidth > 1024 ? 200 : 1000));
