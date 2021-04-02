@@ -51,7 +51,7 @@ class FloatingObject implements FloatingObjectInterface {
       friction: 0,
       frictionAir: 0.002,
       frictionStatic: 0,
-      mass: 10,
+      mass: 1,
       render: {
         fillStyle: 'transparent',
         lineWidth: window.innerWidth > 1024 ? 3 : 2,
@@ -60,7 +60,7 @@ class FloatingObject implements FloatingObjectInterface {
       restitution: 0.5,
     };
 
-    const ball = Bodies.polygon(this.x, this.y, 3, this.r, options);
+    const floatingObject = Bodies.polygon(this.x, this.y, 3, this.r, options);
     const velocityX = randomValue(-2, 5);
     const velocityY = randomValue(-2, 5);
     const angularVelocity = randomValue(-0.05, 0.15, true);
@@ -70,9 +70,10 @@ class FloatingObject implements FloatingObjectInterface {
       y: velocityY,
     };
 
-    Body.setVelocity(ball, velocity);
-    Body.setAngularVelocity(ball, angularVelocity);
-    return ball;
+    Body.setVelocity(floatingObject, velocity);
+    Body.setAngularVelocity(floatingObject, angularVelocity);
+
+    return floatingObject;
   }
 }
 
