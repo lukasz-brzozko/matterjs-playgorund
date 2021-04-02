@@ -5,6 +5,7 @@ import { debounce } from 'debounce';
 
 import BordersGenerator from './helpers/BordersGenerator';
 import FloatingObjectGenerator from './helpers/FloatingObjectGenerator';
+import updateGravity from './helpers/gyroscope';
 import MouseC from './components/MouseC';
 import MouseConstraintC from './components/MouseConstraintC';
 import resetCanvas from './helpers/resetCanvas';
@@ -25,7 +26,7 @@ const setup = () => {
   world = engine.world;
 
   // set world's params
-  world.gravity.scale = 0;
+  world.gravity.scale = window.innerWidth > 1024 ? 0 : 0.001;
 
   // create a renderer
   render = Render.create({
@@ -59,6 +60,11 @@ const setup = () => {
 
   // run the renderer
   Render.run(render);
+
+  // add gyro control
+  if (typeof window !== 'undefined') {
+    window.addEventListener('deviceorientation', (e) => updateGravity(e, world));
+  }
 };
 
 const onResize = () => {
@@ -70,10 +76,10 @@ const onResize = () => {
       (previousWidth !== window.innerWidth)
       || (previousHeight !== window.innerHeight))
       && (window.innerWidth > 1024))
-      || ((
-        (previousWidth !== window.innerWidth)
-        || (previousHeight !== window.innerHeight))
-        && (window.innerWidth < 1024) && (previousWidth > 1024))
+    || ((
+      (previousWidth !== window.innerWidth)
+      || (previousHeight !== window.innerHeight))
+      && (window.innerWidth < 1024) && (previousWidth > 1024))
 
   ) {
     resetCanvas(engine, render, world);
@@ -82,6 +88,8 @@ const onResize = () => {
     previousHeight = window.innerHeight;
   }
 };
+
 setup();
 
-window.addEventListener('resize', debounce(onResize, window.innerWidth > 1024 ? 200 : 1000));
+const debounceInterval = window.innerWidth > 1024 ? 200 : 1000;
+window.addEventListener('resize', debounce(onResize, debounceInterval));
