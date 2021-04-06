@@ -6,11 +6,14 @@ import { debounce } from 'debounce';
 import BordersGenerator from './helpers/BordersGenerator';
 import FloatingObjectGenerator from './helpers/FloatingObjectGenerator';
 import updateGravity from './helpers/gyroscope';
+import MEDIA from './constants/media';
 import MouseC from './components/MouseC';
 import MouseConstraintC from './components/MouseConstraintC';
 import resetCanvas from './helpers/resetCanvas';
+import shouldCanvasReset from './helpers/shouldCanvasReset';
 import WallGenerator from './helpers/WallGenerator';
 
+const { large: largeScreen } = MEDIA;
 const canvas: HTMLCanvasElement | null = document.getElementById('playground') as HTMLCanvasElement;
 let engine: Engine;
 let render: Render;
@@ -26,7 +29,7 @@ const setup = () => {
   world = engine.world;
 
   // set world's params
-  world.gravity.scale = window.innerWidth > 1024 ? 0 : 0.001;
+  world.gravity.scale = window.innerWidth > largeScreen ? 0 : 0.0005;
 
   // create a renderer
   render = Render.create({
@@ -68,20 +71,8 @@ const setup = () => {
 };
 
 const onResize = () => {
-  console.log(previousWidth, window.innerWidth);
-  if (
-    (((previousWidth !== window.innerWidth) || (previousHeight !== window.innerHeight))
-      && ((window.innerWidth < 1024) && (Math.abs(previousHeight - window.innerHeight) > 70)))
-    || ((
-      (previousWidth !== window.innerWidth)
-      || (previousHeight !== window.innerHeight))
-      && (window.innerWidth > 1024))
-    || ((
-      (previousWidth !== window.innerWidth)
-      || (previousHeight !== window.innerHeight))
-      && (window.innerWidth < 1024) && (previousWidth > 1024))
-
-  ) {
+  const shouldReset = shouldCanvasReset({ previousHeight, previousWidth, largeScreen });
+  if (shouldReset) {
     resetCanvas(engine, render, world);
     setup();
     previousWidth = window.innerWidth;
@@ -91,5 +82,5 @@ const onResize = () => {
 
 setup();
 
-const debounceInterval = window.innerWidth > 1024 ? 200 : 1000;
+const debounceInterval = window.innerWidth > largeScreen ? 200 : 1000;
 window.addEventListener('resize', debounce(onResize, debounceInterval));
