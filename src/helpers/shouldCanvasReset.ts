@@ -1,19 +1,23 @@
 type ShouldCanvasResetParams = {
+  currentHeight: number,
+  currentWidth: number,
+  largeScreen: number,
   previousHeight: number,
   previousWidth: number,
-  largeScreen: number
 };
 
 const shouldCanvasReset = (
   {
+    currentHeight,
+    currentWidth,
     largeScreen,
     previousHeight,
     previousWidth,
   }:
   ShouldCanvasResetParams,
 ): boolean => {
-  const widthHasChanged: boolean = previousWidth !== window.innerWidth;
-  const heightHasChanged: boolean = previousHeight !== window.innerHeight;
+  const widthHasChanged: boolean = previousWidth !== currentWidth;
+  const heightHasChanged: boolean = previousHeight !== currentHeight;
   const windowDimensionIsGreaterThan = (
     breakpoint: number,
     windowDimension: number,
@@ -22,17 +26,17 @@ const shouldCanvasReset = (
     (
       (widthHasChanged || heightHasChanged)
             && (
-              !windowDimensionIsGreaterThan(largeScreen, window.innerWidth)
-                && (Math.abs(previousHeight - window.innerHeight) > 70)
+              !windowDimensionIsGreaterThan(largeScreen, currentWidth)
+                && (Math.abs(previousHeight - currentHeight) > 100)
             )
     )
         || (
           (widthHasChanged || heightHasChanged)
-            && windowDimensionIsGreaterThan(largeScreen, window.innerWidth)
+            && windowDimensionIsGreaterThan(largeScreen, currentWidth)
         )
         || (
           (widthHasChanged || heightHasChanged)
-            && !windowDimensionIsGreaterThan(largeScreen, window.innerWidth)
+            && !windowDimensionIsGreaterThan(largeScreen, currentWidth)
             && windowDimensionIsGreaterThan(largeScreen, previousWidth)
         )
 

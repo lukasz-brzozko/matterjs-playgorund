@@ -1,25 +1,25 @@
+import { debounce } from 'debounce';
 import {
   Engine, Render, World,
 } from 'matter-js';
-import { debounce } from 'debounce';
-
+import MouseC from './components/MouseC';
+import MouseConstraintC from './components/MouseConstraintC';
+import MEDIA from './constants/media';
 import BordersGenerator from './helpers/BordersGenerator';
 import FloatingObjectGenerator from './helpers/FloatingObjectGenerator';
 import updateGravity from './helpers/gyroscope';
-import MEDIA from './constants/media';
-import MouseC from './components/MouseC';
-import MouseConstraintC from './components/MouseConstraintC';
 import resetCanvas from './helpers/resetCanvas';
 import shouldCanvasReset from './helpers/shouldCanvasReset';
 import WallGenerator from './helpers/WallGenerator';
 
 const { large: largeScreen } = MEDIA;
 const canvas: HTMLCanvasElement | null = document.getElementById('playground') as HTMLCanvasElement;
+const sectionEl: HTMLElement | null = document.getElementById('about');
 let engine: Engine;
 let render: Render;
 let world: World;
-let previousWidth: number = window.innerWidth;
-let previousHeight: number = window.innerHeight;
+let previousWidth: number = sectionEl?.clientWidth ?? 0;
+let previousHeight: number = sectionEl?.clientHeight ?? 0;
 
 const setup = () => {
   // create an engine
@@ -37,8 +37,8 @@ const setup = () => {
     canvas,
     options: {
       background: 'transparent',
-      height: window.innerHeight,
-      width: window.innerWidth,
+      height: previousHeight,
+      width: previousWidth,
       wireframes: false,
     },
   });
@@ -46,7 +46,7 @@ const setup = () => {
   // create all of the bodies
   const floatingObjects = new FloatingObjectGenerator(world, 5).generate();
   const borderObjects = new BordersGenerator(world).generate();
-  const walls = new WallGenerator(world).generate();
+  const walls = new WallGenerator(previousHeight, world).generate();
 
   // create mouse and mouseConstraint
   const mouse = new MouseC(render.canvas, world).create();
@@ -71,12 +71,16 @@ const setup = () => {
 };
 
 const onResize = () => {
-  const shouldReset = shouldCanvasReset({ previousHeight, previousWidth, largeScreen });
+  const currentHeight = sectionEl?.clientHeight ?? 0;
+  const currentWidth = sectionEl?.clientHeight ?? 0;
+  const shouldReset = shouldCanvasReset({
+    currentHeight, currentWidth, largeScreen, previousHeight, previousWidth,
+  });
   if (shouldReset) {
     resetCanvas(engine, render, world);
     setup();
-    previousWidth = window.innerWidth;
-    previousHeight = window.innerHeight;
+    previousWidth = sectionEl?.clientWidth ?? 0;
+    previousHeight = sectionEl?.clientHeight ?? 0;
   }
 };
 
