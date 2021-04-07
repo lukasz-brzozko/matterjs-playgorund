@@ -1,5 +1,6 @@
 import { Body, World } from 'matter-js';
 
+import MEDIA from '../constants/media';
 import FloatingObject from '../components/FloatingObject';
 import randomValue from './randomValue';
 
@@ -25,7 +26,7 @@ class FloatingObjectGenerator implements FloatingObjectsGeneratorInterface {
     this.resetFloatinObjectsArray();
 
     for (let index = 0; index < this.count; index += 1) {
-      const r = window.innerWidth > 1024 ? 35 : 12;
+      const r = window.innerWidth > MEDIA.large ? 35 : 12;
       const x = randomValue(r * 2, window.innerWidth - (r * 2));
       const y = randomValue(r * 2, window.innerHeight - (r * 2));
       const object = new FloatingObject(x, y, r, this.world).create();
