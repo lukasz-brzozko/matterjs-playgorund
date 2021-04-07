@@ -72,15 +72,15 @@ const setup = () => {
 
 const onResize = () => {
   const currentHeight = sectionEl?.clientHeight ?? 0;
-  const currentWidth = sectionEl?.clientHeight ?? 0;
+  const currentWidth = sectionEl?.clientWidth ?? 0;
   const shouldReset = shouldCanvasReset({
-    currentHeight, currentWidth, largeScreen, previousHeight, previousWidth,
+    currentHeight, currentWidth, previousHeight, previousWidth,
   });
   if (shouldReset) {
     resetCanvas(engine, render, world);
-    setup();
-    previousWidth = sectionEl?.clientWidth ?? 0;
     previousHeight = sectionEl?.clientHeight ?? 0;
+    previousWidth = sectionEl?.clientWidth ?? 0;
+    setup();
   }
 };
 
