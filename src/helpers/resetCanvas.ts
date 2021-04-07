@@ -1,4 +1,5 @@
 import { Engine, Render, World } from 'matter-js';
+
 import updateGravity from './gyroscope';
 
 const resetCanvas = (currentEngine: Engine, currentRender: Render, currentWorld: World): void => {

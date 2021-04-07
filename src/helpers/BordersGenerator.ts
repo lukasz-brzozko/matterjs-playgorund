@@ -1,7 +1,7 @@
 import { Body, World } from 'matter-js';
 
-import GetDOMElement, { OffsetsParams } from './GetDOMElement';
 import StaticObject from '../components/StaticObject';
+import GetDOMElement, { OffsetsParams } from './GetDOMElement';
 
 interface BordersGeneratorInterface {
   elementsBorders: Body[];
