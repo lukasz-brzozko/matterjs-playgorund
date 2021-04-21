@@ -2,7 +2,7 @@ import { Body, World } from 'matter-js';
 
 import StaticObject from '../components/StaticObject';
 
-interface WallGeneratorInterface{
+interface WallGeneratorInterface {
   windowHeight: number;
   world: World;
   generate(): Body[];
@@ -13,7 +13,7 @@ class WallGenerator implements WallGeneratorInterface {
 
   world: World;
 
-  constructor(windowHeight:number, world: World) {
+  constructor(windowHeight: number, world: World) {
     this.windowHeight = windowHeight;
     this.world = world;
   }
